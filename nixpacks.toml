@@ -1,1 +1,2 @@
-
+[phases.setup]
+aptPkgs = ["python3-setuptools"]
