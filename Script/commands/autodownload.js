@@ -52,7 +52,7 @@ module.exports.handleEvent = function ({ api, event }) {
     const filePath = path.join(cacheDir, `video_${Date.now()}.mp4`);
     api.sendMessage("⏳ Video download hocche, wait koro...", threadID);
 
-    exec(`yt-dlp -f "mp4" -o "${filePath}" "${url}"`, (error) => {
+    exec(`yt-dlp -f "best[height<=480]/best" --no-playlist -o "${filePath}" "${url}"`, (error) => {
         if (error || !fs.existsSync(filePath)) return;
         api.sendMessage({
             body: "✅ Ei je tomar video!",
