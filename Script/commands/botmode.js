@@ -13,16 +13,24 @@ module.exports.config = {
 };
 
 module.exports.run = async function ({ api, event, args }) {
-    const { threadID, messageID, senderID } = event;
-    const cmd = (args[0] || "").toLowerCase();
+    try {
+        console.log("[BOTMODE DEBUG] Command triggered, args:", args);
+        const { threadID, messageID, senderID } = event;
+        const cmd = (args[0] || "").toLowerCase();
 
-    if (cmd === "off") {
-        setState({ on: false, allowedUser: senderID });
-        return api.sendMessage("🔴 Bot off kora hoyeche. Ekhon shudhu admin chara r kauke reply debe na.", threadID, messageID);
+        if (cmd === "off") {
+            setState({ on: false, allowedUser: senderID });
+            console.log("[BOTMODE DEBUG] Set to OFF");
+            return api.sendMessage("🔴 Bot off kora hoyeche.", threadID, messageID);
+        }
+        if (cmd === "on") {
+            setState({ on: true, allowedUser: null });
+            console.log("[BOTMODE DEBUG] Set to ON");
+            return api.sendMessage("🟢 Bot on kora hoyeche.", threadID, messageID);
+        }
+        return api.sendMessage("Lekho: botmode on OR botmode off", threadID, messageID);
+    } catch (err) {
+        console.log("[BOTMODE DEBUG] ERROR:", err);
+        return event && api ? api.sendMessage("❌ Error: " + err.message, event.threadID, event.messageID) : null;
     }
-    if (cmd === "on") {
-        setState({ on: true, allowedUser: null });
-        return api.sendMessage("🟢 Bot on kora hoyeche. Sobaike abar reply debe.", threadID, messageID);
-    }
-    return api.sendMessage("Lekho: botmode on  OR  botmode off", threadID, messageID);
 };
