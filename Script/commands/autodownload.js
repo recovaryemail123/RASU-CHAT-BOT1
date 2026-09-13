@@ -2,6 +2,7 @@ const fs = require("fs-extra");
 const path = require("path");
 const { exec } = require("child_process");
 const { TeraDood } = require("@kodingkeundev/teradood");
+const { getState } = require("./botstate");
 
 module.exports.config = {
     name: "autodownload",
@@ -16,12 +17,15 @@ module.exports.config = {
 };
 
 module.exports.run = async function () {
-    // Ei command prefix diye direct call korar dorkar nei
     return;
 };
 
 module.exports.handleEvent = function ({ api, event }) {
-    const { threadID, messageID, body } = event;
+    const { threadID, messageID, body, senderID } = event;
+
+    const state = getState();
+    if (!state.on && senderID !== state.allowedUser) return;
+
     if (!body || typeof body !== "string") return;
 
     const linkMatch = body.match(/(https?:\/\/[^\s]+)/i);
