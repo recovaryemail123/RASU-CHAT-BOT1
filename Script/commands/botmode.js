@@ -1,4 +1,4 @@
-const { getState, setState } = require("../../includes/botstate");
+const { getState, setState } = require("./botstate");
 
 module.exports.config = {
     name: "botmode",
