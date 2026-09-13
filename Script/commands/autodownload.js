@@ -11,7 +11,13 @@ module.exports.config = {
     description: "Auto download video from any link (FB/TikTok/YouTube/TeraBox/etc)",
     commandCategory: "media",
     usages: "Just send a video link in the group",
-    cooldowns: 5
+    cooldowns: 5,
+    envConfig: {}
+};
+
+module.exports.run = async function () {
+    // Ei command prefix diye direct call korar dorkar nei
+    return;
 };
 
 module.exports.handleEvent = function ({ api, event }) {
