@@ -1,4 +1,5 @@
 const OpenAI = require("openai");
+const { getState } = require("./botstate");
 
 const groq = new OpenAI({
     apiKey: process.env.GROQ_API_KEY,
@@ -23,6 +24,10 @@ module.exports.run = async function () {
 
 module.exports.handleEvent = async function ({ api, event }) {
     const { threadID, messageID, body, mentions, senderID } = event;
+
+    const state = getState();
+    if (!state.on && senderID !== state.allowedUser) return;
+
     if (!body || typeof body !== "string") return;
 
     const botID = api.getCurrentUserID();
